@@ -1,0 +1,79 @@
+{
+  "admin": {
+    "password": "370639485b69214998085308f9248322$7168e8c12e1a26f151a76281ee23d210407d3853944e19cf30759f527e3f6576",
+    "email": "admin@gmail.com",
+    "name": "margo",
+    "age": 22,
+    "bio": "",
+    "birth_day": 7,
+    "birth_month": 8,
+    "birth_year": 2003,
+    "zodiac": "Лев",
+    "profile_photo": "/static/uploads/0cdd07df-446d-449a-a32f-06f1879383ea_MyCollages — копия.jpg",
+    "album": [],
+    "school": "БГУИР",
+    "profession": "инжинер",
+    "status": "В поиске",
+    "looking_for": "Общение",
+    "hobbies": [
+      "Спорт",
+      "Музыка",
+      "Путешествия",
+      "Кулинария"
+    ],
+    "reset_token": null
+  },
+  "admin1": {
+    "password": "dacd108ec978a40ce4be8a23eef5f6e6$7bb00ee314b40d0ca8765e93d6a77190d22da2307cf7914b84968e1436252a4e",
+    "email": "admin1@gmail.com",
+    "name": "Маргарита",
+    "age": 20,
+    "bio": "",
+    "birth_day": 29,
+    "birth_month": 9,
+    "birth_year": 2005,
+    "zodiac": "Весы",
+    "profile_photo": "/static/uploads/547f5fea-5649-4212-ab28-e5dffcc53c23_Снимок экрана 2026-02-05 в 23.44.32.png",
+    "album": [
+      "/static/uploads/76d842aa-14c1-4404-9a5d-768f83748900_MyCollages — копия.jpg"
+    ],
+    "school": "БГУИР",
+    "profession": "инжинер",
+    "status": "Активный",
+    "looking_for": "Любовь",
+    "hobbies": [
+      "Спорт",
+      "Музыка",
+      "Путешествия",
+      "Чтение",
+      "Кулинария"
+    ],
+    "reset_token": null
+  },
+  "gleb": {
+    "password": "e86a232efa250845f60a80c0b20cd05c$a23a67bd7a64e4d3e86d13a81914b7b46449c212a1a59f967791b887c999b11f",
+    "email": "wedjvhwjh@gmail.com",
+    "name": "Глеб",
+    "age": 20,
+    "bio": "",
+    "birth_day": 1,
+    "birth_month": 9,
+    "birth_year": 2005,
+    "zodiac": "Дева",
+    "profile_photo": "/static/uploads/b9cadb79-daae-4140-90a4-057186d320c3_—Pngtree—black elegant grand piano_4453268.png",
+    "album": [
+      "/static/uploads/5bcc18f4-7142-432d-bb45-03657ce0babf_Снимок экрана 2026-02-05 в 23.44.32.png"
+    ],
+    "school": "",
+    "profession": "",
+    "status": "В поиске",
+    "looking_for": "Любовь",
+    "hobbies": [
+      "Спорт",
+      "Музыка",
+      "Кино",
+      "Игры"
+    ],
+    "reset_token": null
+  }
+}

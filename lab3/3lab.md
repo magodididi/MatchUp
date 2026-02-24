@@ -60,7 +60,7 @@
 **Кэширование** - Распределенный кэш Redis с TTL |
 
 ### 6. Структурная схема приложения (UML компонентов)
-![Диаграмма классов As Is](https://github.com/magodididi/MatchUp.git/blob/main/images_for_3lab/to.png?raw=true)
+![Диаграмма классов As Is](https://github.com/magodididi/MatchUp.git/blob/main/images_for_3lab/to_be.png?raw=true)
 ---
 
 ## Часть 2. Анализ архитектуры (As Is)

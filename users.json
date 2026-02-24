@@ -9,17 +9,16 @@
     "birth_month": 8,
     "birth_year": 2003,
     "zodiac": "Лев",
-    "profile_photo": "/static/uploads/0cdd07df-446d-449a-a32f-06f1879383ea_MyCollages — копия.jpg",
+    "profile_photo": "/static/uploads/70c3d259-bc67-4f55-8efe-89fd772822f0_картошка-резаная.jpg",
     "album": [],
     "school": "БГУИР",
     "profession": "инжинер",
     "status": "В поиске",
     "looking_for": "Общение",
     "hobbies": [
-      "Спорт",
       "Музыка",
       "Путешествия",
-      "Кулинария"
+      "Игры"
     ],
     "reset_token": null
   },
@@ -74,6 +73,68 @@
       "Кино",
       "Игры"
     ],
+    "reset_token": null
+  },
+  "pasha": {
+    "password": "8138cd8872c8bc7f00d1fc9d5134fe64$3bd06a96063ead73f158e6092bef13165a36605d442618e035e5d59a9c9527ce",
+    "email": "qwex@gmail.com",
+    "name": "Pasha",
+    "age": 20,
+    "bio": "",
+    "birth_day": 1,
+    "birth_month": 4,
+    "birth_year": 2005,
+    "zodiac": "Овен",
+    "profile_photo": "/static/uploads/2f1e9673-82e8-4161-a64b-55df67bbc376_картошка-резаная.jpg",
+    "album": [],
+    "school": "БГУИР",
+    "profession": "программист",
+    "status": "В поиске",
+    "looking_for": "Любовь",
+    "hobbies": [
+      "Музыка",
+      "Кино",
+      "Игры",
+      "Кулинария"
+    ],
+    "reset_token": null
+  },
+  "a1": {
+    "password": "041229c44d86c5959fcf791d68980fe3$002815f5064e3268a5ff85aefe408bc6ba4e9d3ed466a7f172531aa6501487ec",
+    "email": "a@a.r",
+    "name": "",
+    "age": "",
+    "bio": "",
+    "birth_day": null,
+    "birth_month": null,
+    "birth_year": null,
+    "zodiac": "",
+    "profile_photo": "",
+    "album": [],
+    "school": "",
+    "profession": "",
+    "status": "",
+    "looking_for": "",
+    "hobbies": [],
+    "reset_token": null
+  },
+  "pasha1": {
+    "password": "99f35951d37e505799479ffb62532527$ef198bf3433e91040fe82da4af24bd094fb55522f764cc6a40d6618487c3fbf4",
+    "email": "hwejkdhwej@gmail.com",
+    "name": "",
+    "age": "",
+    "bio": "",
+    "birth_day": null,
+    "birth_month": null,
+    "birth_year": null,
+    "zodiac": "",
+    "profile_photo": "",
+    "album": [],
+    "school": "",
+    "profession": "",
+    "status": "",
+    "looking_for": "",
+    "hobbies": [],
     "reset_token": null
   }
 }

@@ -14,10 +14,8 @@ app.secret_key = "supersecretkey"
 auth = Blueprint("auth", __name__)
 
 
-# Допустимые расширения файлов для фото
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
-# Папка для сохранения загруженных файлов
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "static", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 

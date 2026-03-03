@@ -8,10 +8,65 @@
         a { text-decoration:none; }
         header { background: linear-gradient(90deg,#ff6b81,#ff4757); color:white; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:1000; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
         header h1 { margin:0; font-size:28px; letter-spacing:1px; }
-        header nav a { color:white; margin-left:20px; font-weight:600; transition:0.3s; }
-        header nav a:hover { opacity:0.8; }
-        .profile-circle { width:45px; height:45px; border-radius:50%; object-fit:cover; cursor:pointer; transition:0.3s; }
-        .profile-circle:hover { transform:scale(1.1); }
+        header nav { 
+            display:flex; 
+            align-items:center; 
+            gap:20px; 
+        }
+        
+        .matches-btn {
+            background: #ff6b81 !important;
+            color: white !important;
+            padding: 10px 25px !important; 
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            border: 2px solid #ff9eb5 !important;
+            transition: 0.3s !important;
+            box-shadow: 0 4px 10px rgba(255, 107, 129, 0.3) !important;
+            /* Добавленные свойства для выравнивания */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1; /* Убираем лишнее межстрочное расстояние */
+            height: 45px; /* Фиксированная высота, как у кружка профиля */
+            box-sizing: border-box; /* Учитываем padding и border в высоте */
+        }
+        
+        .matches-btn:hover {
+            background: #ff4757 !important;
+            border-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4) !important;
+        }
+        
+        .auth-link {
+            color: white !important;
+            font-weight: 600 !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 45px;
+            box-sizing: border-box;
+        }
+        
+        .auth-link:hover {
+            border-color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .profile-circle { 
+            width:45px; 
+            height:45px; 
+            border-radius:50%; 
+            object-fit:cover; 
+            cursor:pointer; 
+            transition:0.3s; 
+            border: 3px solid rgba(255,255,255,0.5);
+            display: block; /* Убираем лишние отступы */
+            margin: 0; /* Убираем возможные отступы */
+            flex-shrink: 0; /* Запрещаем сжиматься */
+        }
+        .profile-circle:hover { transform:scale(1.1); border-color:white; }
 
         /* Стили для летающих сердечек */
         .hearts-container {
@@ -85,7 +140,7 @@
         .profile-banner p { margin:0; font-weight:600; }
         .profile-banner button { background:white; color:#ff3b57; border:none; padding:8px 18px; border-radius:50px; cursor:pointer; font-weight:600; transition:0.3s; }
         .profile-banner button:hover { background:#ffe6e6; }
-        .profile-circle-small { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+        .profile-circle-small { width:40px; height:40px; border-radius:50%; object-fit:cover; border: 2px solid white; }
 
         .cards { display:flex; justify-content:center; flex-wrap:wrap; gap:25px; padding:60px 20px; position: relative; z-index: 2; }
         .card { background:white; padding:30px 20px; border-radius:15px; width:270px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:center; transition:0.3s; position: relative; z-index: 3; }
@@ -98,22 +153,35 @@
         @media(max-width:900px){ 
             .cards { flex-direction:column; align-items:center; } 
             .heart { font-size: 18px; }
+            header { padding:15px 20px; }
+            header nav { 
+                display:flex; 
+                align-items:center; 
+                gap:10px; 
+            }
+            .matches-btn {
+                padding: 8px 15px !important; /* Чуть меньше на мобильных */
+                height: 40px !important; /* Чуть меньше на мобильных */
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- Контейнер для летающих сердечек -->
-<div class="hearts-container" id="hearts-container"></div>
+    <div class="hearts-container" id="hearts-container"></div>
 
 <header>
     <h1>MatchUp</h1>
     <nav>
         {% if user_logged_in and user %}
+            <a href="{{ url_for('auth.matches') }}" class="matches-btn">
+                Мои матчи
+            </a>
+            
             <img src="{{ user.profile_photo if user.profile_photo else '/static/default-avatar.png' }}" class="profile-circle" onclick="window.location.href='/profile'">
         {% else %}
-            <a href="{{ url_for('auth.register') }}">Регистрация</a>
-            <a href="{{ url_for('auth.login') }}">Войти</a>
+            <a href="{{ url_for('auth.register') }}" class="auth-link">Регистрация</a>
+            <a href="{{ url_for('auth.login') }}" class="auth-link">Войти</a>
         {% endif %}
     </nav>
 </header>
@@ -123,6 +191,8 @@
     <p>MatchUp — ваш безопасный и удобный способ встретить единомышленника.</p>
     {% if not user_logged_in %}
         <a href="{{ url_for('auth.register') }}"><button>Начать</button></a>
+    {% else %}
+        <a href="{{ url_for('auth.swipe') }}"><button>Смотреть анкеты</button></a>
     {% endif %}
 </div>
 
@@ -133,6 +203,7 @@
     <button onclick="window.location.href='/profile'">Перейти в профиль</button>
 </div>
 {% endif %}
+
 
 <div class="cards">
     <div class="card">

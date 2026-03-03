@@ -60,7 +60,12 @@ def register():
             "status": "",
             "looking_for": "",
             "hobbies": [],
-            "reset_token": None
+            "gender": "",                     # ← НОВОЕ
+            "reset_token": None,
+            "likes": [],
+            "passed": [],
+            "matches": [],
+            "chats": {}
         }
 
 
@@ -127,9 +132,10 @@ def profile():
     users = load_users()
     user = users[session["user"]]
 
-    all_hobbies = ["Спорт", "Музыка", "Кино", "Путешествия", "Чтение", "Игры", "Кулинария"]
+    all_hobbies = ["Спорт", "Музыка", "Кино", "Путешествия", "Чтение", "Игры", "Кулинария", "Игры", "Машины", "Психология"]
     search_options = ["Любовь", "Общение", "Дружба"]
     status_options = ["Активный", "В поиске", "Скрытый"]
+    gender_options = ["Мужской", "Женский"]
 
     if request.method == "POST":
         # ---------------- Основные поля ----------------
@@ -178,6 +184,8 @@ def profile():
         user["status"] = request.form.get("status", "")
         user["looking_for"] = request.form.get("looking_for", "")
         user["hobbies"] = request.form.getlist("hobbies")
+        user["gender"] = request.form.get("gender", "")   # ← НОВОЕ
+
 
         save_users(users)
         flash("Профиль обновлён")
@@ -189,7 +197,8 @@ def profile():
         user=user,
         hobbies=all_hobbies,
         search_options=search_options,
-        status_options=status_options
+        status_options=status_options,
+        gender_options=gender_options
     )
 
 
@@ -250,3 +259,239 @@ def reset_password(token):
         return redirect(url_for("auth.login"))
 
     return render_template("reset_password.html", token=token)
+
+@auth.route("/swipe")
+def swipe():
+    if "user" not in session:
+        flash("Войдите, чтобы смотреть анкеты")
+        return redirect(url_for("auth.login"))
+
+    users = load_users()
+    current_user_login = session["user"]
+    me = users.get(current_user_login)
+
+    if not me:
+        session.pop("user", None)
+        return redirect(url_for("auth.login"))
+
+    # Собираем всех, кого уже видели (лайк + пропуск)
+    seen = set(me.get("likes", []) + me.get("passed", []))
+
+    # Список кандидатов
+    candidates = []
+
+    for login, user in users.items():
+        if login == current_user_login:
+            continue
+        if login in seen:
+            continue
+        if not user.get("profile_photo"):  # без фото — пропускаем (можно убрать это условие позже)
+            continue
+
+        my_gender = me.get("gender", "")
+        target_gender = user.get("gender", "")
+        if my_gender and target_gender:
+            expected_opp = "Женский" if my_gender == "Мужской" else "Мужской" if my_gender == "Женский" else None
+            if expected_opp and target_gender != expected_opp:
+                continue
+
+        # Считаем совпадения по интересам
+        common_hobbies = set(me.get("hobbies", [])) & set(user.get("hobbies", []))
+        match_score = len(common_hobbies) * 10
+
+        # Бонус если looking_for совпадает с моим статусом (или наоборот)
+        if user.get("looking_for") and me.get("status") in user["looking_for"]:
+            match_score += 15
+        if me.get("looking_for") and user.get("status") in me["looking_for"]:
+            match_score += 15
+
+        candidates.append({
+            "login": login,
+            "name": user.get("name", login),
+            "age": user.get("age", "?"),
+            "zodiac": user.get("zodiac", ""),
+            "gender": target_gender,                     # для отображения
+            "bio": user.get("bio", "")[:120] + ("..." if len(user.get("bio", "")) > 120 else ""),
+            "profile_photo": user.get("profile_photo", ""),
+            "album_count": len(user.get("album", [])),
+            "common_hobbies": list(common_hobbies)[:4],  # показываем до 4 общих
+            "score": match_score
+        })
+
+    # Сортируем по убыванию совпадений (лучшие — первые)
+    candidates.sort(key=lambda x: x["score"], reverse=True)
+
+    # Берём первых 10 (или меньше)
+    candidates = candidates[:10]
+
+    return render_template(
+        "swipe.html",
+        candidates=candidates,
+        current_user=me
+    )
+
+@auth.route("/swipe/action", methods=["POST"])
+def swipe_action():
+    if "user" not in session:
+        return redirect(url_for("auth.login"))
+
+    target_login = request.form.get("target")
+    action = request.form.get("action")
+
+    print(f"[DEBUG] Действие: {action} от {session['user']} на {target_login}")
+
+    if not target_login or action not in ["like", "pass"]:
+        flash("Ошибка действия")
+        return redirect(url_for("auth.swipe"))
+
+    users = load_users()
+    me_login = session["user"]
+    me = users.get(me_login)
+    target = users.get(target_login)
+
+    if not me or not target:
+        print("[DEBUG] Пользователь не найден")
+        flash("Пользователь не найден")
+        return redirect(url_for("auth.swipe"))
+
+    if action == "like":
+        if target_login not in me["likes"]:
+            me["likes"].append(target_login)
+            print(f"[DEBUG] Добавлен лайк: {target_login}")
+        if me_login in target.get("likes", []):
+            if target_login not in me["matches"]:
+                me["matches"].append(target_login)
+                target["matches"].append(me_login)
+                print(f"[DEBUG] Матч! {me_login} ↔ {target_login}")
+            flash(f"Взаимный матч с {target.get('name', target_login)}! 🎉")
+
+    elif action == "pass":
+        if target_login not in me["passed"]:
+            me["passed"].append(target_login)
+            print(f"[DEBUG] Добавлен пропуск: {target_login}")
+
+    save_users(users)
+    print("[DEBUG] Сохранено в users.json")
+    return redirect(url_for("auth.swipe"))
+
+@auth.route("/matches")
+def matches():
+    if "user" not in session:
+        flash("Войдите, чтобы видеть матчи")
+        return redirect(url_for("auth.login"))
+
+    users = load_users()
+    me_login = session["user"]
+    me = users.get(me_login)
+
+    if not me:
+        session.pop("user", None)
+        return redirect(url_for("auth.login"))
+
+    match_logins = me.get("matches", [])
+    match_profiles = []
+
+    for login in match_logins:
+        if login not in users:
+            continue
+        u = users[login]
+        common_hobbies = set(me.get("hobbies", [])) & set(u.get("hobbies", []))
+
+        match_profiles.append({
+            "login": login,
+            "name": u.get("name", login),
+            "age": u.get("age", "?"),
+            "zodiac": u.get("zodiac", ""),
+            "bio": u.get("bio", "")[:100] + ("..." if len(u.get("bio", "")) > 100 else ""),
+            "profile_photo": u.get("profile_photo", ""),
+            "common_hobbies": list(common_hobbies)[:5],
+            "last_active": "недавно"  # позже можно сделать реальное время
+        })
+
+    return render_template(
+        "matches.html",
+        matches=match_profiles,
+        current_user=me
+    )
+
+@auth.route("/chat/<partner>")
+def chat(partner):
+    if "user" not in session:
+        flash("Войдите, чтобы общаться")
+        return redirect(url_for("auth.login"))
+
+    users = load_users()
+    me_login = session["user"]
+    me = users.get(me_login)
+
+    if not me or partner not in users or partner not in me.get("matches", []):
+        flash("Чат недоступен")
+        return redirect(url_for("auth.matches"))
+
+    partner_user = users[partner]
+
+    # Получаем сообщения
+    my_chats = me.get("chats", {})
+    messages = my_chats.get(partner, [])
+
+    # Отмечаем как прочитанные ВСЕ сообщения ОТ партнёра
+    updated = False
+    for msg in messages:
+        if msg.get("from") == partner and not msg.get("read", False):
+            msg["read"] = True
+            updated = True
+
+    if updated:
+        save_users(users)
+        # Можно обновить messages после изменения, но т.к. это список в памяти — уже обновлён
+
+    return render_template(
+        "chat.html",
+        partner=partner_user,
+        partner_login=partner,
+        messages=messages,
+        me_login=me_login
+    )
+
+@auth.route("/chat/<partner>/send", methods=["POST"])
+def send_message(partner):
+    if "user" not in session:
+        return redirect(url_for("auth.login"))
+
+    text = request.form.get("message", "").strip()
+    if not text:
+        return redirect(url_for("auth.chat", partner=partner))
+
+    users = load_users()
+    me_login = session["user"]
+    me = users.get(me_login)
+    partner_user = users.get(partner)
+
+    if not me or not partner_user or partner not in me.get("matches", []):
+        flash("Ошибка отправки")
+        return redirect(url_for("auth.matches"))
+
+    message = {
+        "from": me_login,
+        "text": text,
+        "time": date.today().strftime("%Y-%m-%d %H:%M"),
+        "read": False
+    }
+
+    # Добавляем себе
+    if "chats" not in me:
+        me["chats"] = {}
+    if partner not in me["chats"]:
+        me["chats"][partner] = []
+    me["chats"][partner].append(message)
+
+    # Добавляем собеседнику
+    if "chats" not in partner_user:
+        partner_user["chats"] = {}
+    if me_login not in partner_user["chats"]:
+        partner_user["chats"][me_login] = []
+    partner_user["chats"][me_login].append(message)
+
+    save_users(users)
+
+    return redirect(url_for("auth.chat", partner=partner))

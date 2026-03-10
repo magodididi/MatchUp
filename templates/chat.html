@@ -4,267 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Чат с {{ partner.name or partner_login }} — MatchUp</title>
+    <link rel="stylesheet" href="/static/chat.css">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --primary: #ff3b57;
-            --primary-dark: #e02e48;
-            --bg: #fff0f5;
-            --msg-sent: linear-gradient(135deg, #ff3b57, #ff6b81);
-            --msg-received: #ffffff;
-            --text-dark: #1a1a1a;
-            --text-light: #ffffff;
-            --time: #999;
-        }
-
-        /* закомментированный тёмный режим — раскомментируй при необходимости */
-        /*
-        body.dark {
-            --bg: #111;
-            --msg-sent: linear-gradient(135deg, #e02e48, #ff3b57);
-            --msg-received: #222;
-            --text-dark: #f0f0f0;
-            --text-light: #111;
-            --time: #aaa;
-        }
-        */
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-header {
-            background: var(--primary);
-            color: white;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-        }
-
-        .chat-header img {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.9);
-        }
-
-        .chat-header h2 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0;
-            flex: 1;
-        }
-
-        .back-link {
-            color: white;
-            font-size: 0.95rem;
-            text-decoration: none;
-            opacity: 0.9;
-        }
-        .back-link:hover { opacity: 1; }
-
-        .messages {
-            flex: 1;
-            padding: 20px 16px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            background: var(--bg);
-        }
-
-        .message {
-            max-width: 78%;
-            position: relative;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .message.sent {
-            align-self: flex-end;
-        }
-
-        .message.received {
-            align-self: flex-start;
-            display: flex;
-            gap: 8px;
-        }
-
-        .message-bubble {
-            padding: 12px 16px;
-            border-radius: 20px;
-            line-height: 1.45;
-            font-size: 0.97rem;
-            position: relative;
-            word-wrap: break-word;
-            hyphens: auto;
-        }
-
-        .message.sent .message-bubble {
-            background: var(--msg-sent);
-            color: var(--text-light);
-            border-bottom-right-radius: 5px;
-        }
-
-        .message.received .message-bubble {
-            background: var(--msg-received);
-            color: var(--text-dark);
-            border-bottom-left-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-        }
-
-        /* хвостики (tails) */
-        .message.sent .message-bubble::after,
-        .message.received .message-bubble::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border: 8px solid transparent;
-        }
-
-        .message.sent .message-bubble::after {
-            right: -6px;
-            border-left-color: var(--primary-dark);
-            border-right: 0;
-        }
-
-        .message.received .message-bubble::after {
-            left: -6px;
-            border-right-color: var(--msg-received);
-            border-left: 0;
-        }
-
-        .avatar-small {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-            align-self: flex-end;
-            margin-bottom: 4px;
-        }
-
-        .message-time {
-            font-size: 0.73rem;
-            color: var(--time);
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            justify-content: flex-end;
-        }
-
-        .message.sent .message-time { justify-content: flex-end; }
-        .message.received .message-time { justify-content: flex-start; }
-
-        .input-area {
-            padding: 14px 16px;
-            background: white;
-            border-top: 1px solid #e8e8e8;
-            display: flex;
-            gap: 10px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-        }
-
-        .input-area input {
-            flex: 1;
-            padding: 13px 18px;
-            border: 1px solid #ddd;
-            border-radius: 999px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .input-area input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255,59,87,0.15);
-        }
-
-        .input-area button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: grid;
-            place-items: center;
-        }
-
-        .input-area button:hover {
-            background: var(--primary-dark);
-            transform: scale(1.08);
-        }
-
-        .no-messages {
-            align-self: center;
-            margin: auto;
-            text-align: center;
-            color: #888;
-            font-size: 1.1rem;
-            padding: 40px 20px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 500px) {
-            .messages { padding: 16px 12px; }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
 <div class="chat-header">
     <img src="{{ partner.profile_photo or '/static/default-avatar.png' }}" alt="{{ partner.name or partner_login }}">
-    <h2>{{ partner.name or partner_login }}</h2>
-    <a href="{{ url_for('auth.swipe') }}" class="back-link">← Назад</a>
+    <div class="header-info">
+        <h2>{{ partner.name or partner_login }}</h2>
+        <span class="online-status {% if partner.is_online %}online{% endif %}">
+            {% if partner.is_online %}В сети{% else %}Был(а) недавно{% endif %}
+        </span>
+    </div>
+    <a href="{{ url_for('auth.matches') }}" class="back-link"><i class="fas fa-arrow-left"></i></a>
 </div>
 
 <div class="messages" id="messages">
     {% if messages %}
         {% for msg in messages %}
-        <div class="message {% if msg.from == me_login %}sent{% else %}received{% endif %}">
+        <div class="message {% if msg.from == me_login %}sent{% else %}received{% endif %}" id="message-{{ msg.id }}" data-message-id="{{ msg.id }}">
             {% if msg.from != me_login %}
                 <img src="{{ partner.profile_photo or '/static/default-avatar.png' }}" class="avatar-small" alt="">
             {% endif %}
 
-            <div class="message-bubble">
-                {{ msg.text }}
-            </div>
-
-            <div class="message-time">
-                {{ msg.time }}
-                {% if msg.from == me_login %}
-                    {% if msg.read %}
-                        <span style="color: #4caf50;">✓✓</span>
-                    {% else %}
-                        <span style="color: #aaa;">✓</span>
+            <div class="message-content">
+                <div class="message-bubble">
+                    <span class="message-text">{{ msg.text }}</span>
+                    
+                    {% if msg.edited %}
+                        <span class="edited-mark" title="Отредактировано">✎</span>
                     {% endif %}
-                {% endif %}
+                    
+                    {% if msg.from == me_login %}
+                    <div class="message-actions">
+                        <button class="action-btn edit-btn" onclick="editMessage('{{ msg.id }}')" title="Редактировать">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteMessage('{{ msg.id }}')" title="Удалить">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="message-footer">
+                    <span class="message-time">{{ msg.time }}</span>
+                    {% if msg.from == me_login %}
+                        <span class="message-status">
+                            {% if msg.read %}
+                                <i class="fas fa-check-double" style="color: #4caf50;" title="Прочитано"></i>
+                            {% else %}
+                                <i class="fas fa-check" style="color: #aaa;" title="Отправлено"></i>
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -273,19 +72,177 @@
     {% endif %}
 </div>
 
-<form class="input-area" method="POST" action="{{ url_for('auth.send_message', partner=partner_login) }}">
-    <input type="text" name="message" placeholder="Сообщение..." autocomplete="off" required autofocus>
-    <button type="submit">➤</button>
+<!-- Модальное окно для редактирования сообщения -->
+<div class="modal" id="editModal">
+    <div class="modal-content">
+        <h3>Редактировать сообщение</h3>
+        <textarea id="editText" rows="3" placeholder="Введите новый текст..."></textarea>
+        <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeModal()">Отмена</button>
+            <button class="save-btn" onclick="saveEdit()">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+<form class="input-area" id="messageForm" method="POST" action="{{ url_for('auth.send_message', partner=partner_login) }}">
+    <input type="text" name="message" id="messageInput" placeholder="Сообщение..." autocomplete="off" required autofocus>
+    <button type="submit" id="sendButton"><i class="fas fa-paper-plane"></i></button>
 </form>
 
 <script>
     const messagesDiv = document.getElementById('messages');
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    const currentUserId = '{{ me_login }}';
+    let editingMessageId = null;
 
-    // Автоскролл при отправке (если захочешь добавить AJAX позже)
-    // document.querySelector('form').addEventListener('submit', () => {
-    //     setTimeout(() => messagesDiv.scrollTop = messagesDiv.scrollHeight, 100);
-    // });
+    // Скролл к последнему сообщению
+    function scrollToBottom() {
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+    scrollToBottom();
+
+    // Автообновление чата каждые 3 секунды
+    setInterval(function() {
+        fetch(window.location.href)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newMessages = doc.getElementById('messages').innerHTML;
+                const oldMessages = document.getElementById('messages').innerHTML;
+                
+                if (newMessages !== oldMessages) {
+                    document.getElementById('messages').innerHTML = newMessages;
+                    scrollToBottom();
+                    updateReadStatus();
+                }
+            });
+    }, 3000);
+
+    // Отметка о прочтении
+    function updateReadStatus() {
+        const unreadMessages = document.querySelectorAll('.message.received:not(.read)');
+        unreadMessages.forEach(msg => {
+            const msgId = msg.dataset.messageId;
+            fetch(`/chat/mark-read/${msgId}`, { method: 'POST' });
+        });
+    }
+
+    // Редактирование сообщения
+    window.editMessage = function(messageId) {
+        const messageElement = document.getElementById(`message-${messageId}`);
+        const messageText = messageElement.querySelector('.message-text').textContent;
+        
+        editingMessageId = messageId;
+        document.getElementById('editText').value = messageText;
+        document.getElementById('editModal').style.display = 'flex';
+    }
+
+    window.saveEdit = function() {
+        const newText = document.getElementById('editText').value.trim();
+        if (!newText || !editingMessageId) return;
+
+        fetch(`/chat/edit-message/${editingMessageId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: newText })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Ошибка при редактировании сообщения');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ошибка при редактировании сообщения');
+        })
+        .finally(() => {
+            closeModal();
+        });
+    }
+
+    // Удаление сообщения
+    window.deleteMessage = function(messageId) {
+        if (!confirm('Удалить это сообщение?')) return;
+
+        fetch(`/chat/delete-message/${messageId}`, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const messageElement = document.getElementById(`message-${messageId}`);
+                messageElement.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    messageElement.remove();
+                    if (document.querySelectorAll('.message').length === 0) {
+                        messagesDiv.innerHTML = '<div class="no-messages">Пока сообщений нет.<br>Напиши первым! ❤️</div>';
+                    }
+                }, 300);
+            } else {
+                alert('Ошибка при удалении сообщения');
+            }
+        });
+    }
+
+    window.closeModal = function() {
+        document.getElementById('editModal').style.display = 'none';
+        editingMessageId = null;
+    }
+
+    // Отправка сообщения с анимацией
+    document.getElementById('messageForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const input = document.getElementById('messageInput');
+        const message = input.value.trim();
+        
+        if (!message) return;
+
+        const formData = new FormData();
+        formData.append('message', message);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ошибка при отправке сообщения');
+        });
+    });
+
+    // Закрытие модального окна по клику вне его
+    window.onclick = function(event) {
+        const modal = document.getElementById('editModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+
+    // Обновление статуса прочтения при видимости сообщений
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const message = entry.target;
+                if (message.classList.contains('received')) {
+                    const msgId = message.dataset.messageId;
+                    fetch(`/chat/mark-read/${msgId}`, { method: 'POST' });
+                }
+            }
+        });
+    });
+
+    document.querySelectorAll('.message.received').forEach(msg => observer.observe(msg));
 </script>
 
 </body>

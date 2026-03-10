@@ -1,0 +1,321 @@
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffe6e6, #ffb3b3);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Хедер как на главной странице */
+        .header {
+            background: #ff3b57;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 4px 20px rgba(255, 59, 87, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .header a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-3px);
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            flex: 1;
+            text-align: center;
+            margin-right: 80px; 
+        }
+
+        .swipe-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            position: relative;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 440px;
+            height: 680px;
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(255, 59, 87, 0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            animation: cardAppear 0.5s ease-out;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 70px rgba(255, 59, 87, 0.45);
+        }
+
+        .card img {
+            width: 100%;
+            height: 65%;
+            object-fit: cover;
+            border-bottom: 3px solid #ff3b57;
+        }
+
+        .card-info {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: white;
+        }
+
+        .name-age {
+            font-size: 30px;
+            font-weight: 700;
+            color: #2d3436;
+            line-height: 1.2;
+        }
+
+        .zodiac-gender {
+            font-size: 16px;
+            color: #ff3b57;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .zodiac-gender::before {
+            content: "♡";
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .bio {
+            font-size: 13px;
+            color: #636e72;
+            line-height: 1.5;
+            flex: 1;
+            margin: 1px 0;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .bio::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .bio::-webkit-scrollbar-thumb {
+            background: #ffb3b3;
+            border-radius: 4px;
+        }
+
+        .common {
+            font-size: 15px;
+            color: #ff3b57;
+            background: #ffe6e6;
+            padding: 12px 15px;
+            border-radius: 16px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .actions {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 190px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .actions form {
+            pointer-events: auto;
+        }
+
+        .btn-action {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: none;
+            font-size: 42px;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            backdrop-filter: blur(5px);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            margin: 20px 80px;
+        }
+
+        .btn-dislike {
+            color: #ff4757;
+            background: linear-gradient(145deg, #ffffff, #fff0f0);
+        }
+
+        .btn-like {
+            color: #ff3b57;
+            background: linear-gradient(145deg, #ffffff, #ffe6e6);
+        }
+
+        .btn-action:hover {
+            transform: scale(1.2) rotate(5deg);
+            box-shadow: 0 20px 40px rgba(255, 59, 87, 0.4);
+        }
+
+        .btn-dislike:hover {
+            background: #ff4757;
+            color: white;
+            border-color: #ff4757;
+        }
+
+        .btn-like:hover {
+            background: #f56e82;
+            color: white;
+            border-color: #f56e82;
+        }
+
+        .no-more {
+            text-align: center;
+            background: white;
+            padding: 70px 40px;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px rgba(255, 59, 87, 0.25);
+            max-width: 480px;
+            width: 90%;
+            animation: cardAppear 0.5s ease-out;
+        }
+
+        .no-more h2 {
+            color: #ff3b57;
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .no-more p {
+            color: #636e72;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            background: #ff3b57;
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 10px 25px rgba(255, 59, 87, 0.3);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .btn-home:hover {
+            background: white;
+            color: #ff3b57;
+            border-color: #ff3b57;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 59, 87, 0.4);
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+                margin-right: 0;
+            }
+            
+            .header a {
+                padding: 6px 12px;
+                font-size: 15px;
+            }
+            
+            .card {
+                max-width: 380px;
+                height: 600px;
+            }
+            
+            .name-age {
+                font-size: 26px;
+            }
+            
+            .btn-action {
+                width: 70px;
+                height: 70px;
+                font-size: 36px;
+            }
+            
+            .actions {
+                gap: 25px;
+                bottom: 30px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                height: 550px;
+            }
+            
+            .card-info {
+                padding: 20px;
+            }
+            
+            .name-age {
+                font-size: 24px;
+            }
+        }

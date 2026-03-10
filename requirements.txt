@@ -1,0 +1,4 @@
+flask
+pytest
+beautifulsoup4
+pytest-cov

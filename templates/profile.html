@@ -3,350 +3,100 @@
 <head>
     <title>Профиль</title>
     <link rel="stylesheet" href="/static/style.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
-        body {
-            font-family: 'Poppins', Arial, sans-serif;
-            margin: 0;
-            padding: 20px; 
-            background: #ffe6e6;
-            display: flex;
-            justify-content: center;
-        }
-
-        .profile-container {
-            display: flex;
-            flex-direction: column;
-            max-width: 950px;
-            width: 100%;
-            background: white;
-            border-radius: 25px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-            padding: 30px; 
-            gap: 25px; 
-        }
-
-        h2 {
-            text-align: center;
-            color: #ff3b57;
-            margin-bottom: 10px;
-            font-size: 34px;
-            font-weight: 700;
-        }
-
-        h3 {
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 22px;
-            font-weight: 600;
-        }
-
-        .top-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            justify-content: center;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-
-        .profile-photo {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 4px solid #ff3b57;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .profile-photo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-        .profile-info {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .profile-info p {
-            font-size: 16px;
-            margin: 8px 0;
-            color: #555;
-        }
-
-        .profile-info strong {
-            color: #333;
-        }
-
-        .album-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            max-height: 250px;
-            overflow-y: auto;
-            padding-right: 5px;
-            margin-bottom: 10px;
-        }
-
-        .album-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .album-container::-webkit-scrollbar-thumb {
-            background: #ff3b57;
-            border-radius: 10px;
-        }
-
-        .album-photo {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .album-photo:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-
-        .block {
-            background: #fff5f5;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-        }
-
-        form {
-            width: 100%;
-        }
-
-        .form-columns {
-            display: flex;
-            gap: 40px;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .form-column {
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        input, select, textarea {
-            padding: 14px 16px;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            font-size: 15px;
-            width: 100%;
-            box-sizing: border-box;
-            transition: 0.3s;
-            font-family: 'Poppins', Arial, sans-serif;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: #ff3b57;
-            outline: none;
-            box-shadow: 0 0 10px rgba(255,59,87,0.3);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        label {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            display: block;
-            color: #333;
-        }
-
-        .buttons-group {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .form-submit {
-            text-align: center;
-            margin-top: 30px;
-            width: 100%;
-        }
-
-        button {
-            background: #ff3b57;
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-        }
-
-        button:hover {
-            background: #4a5568;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-        }
-
-        .btn-logout {
-            background: #4a5568;
-        }
-
-        .btn-main {
-            background: #ff1f3c;
-        }
-
-        .btn-main:hover {
-            background: #ff1f3c;
-        }
-
-        .hobby-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 5px;
-        }
-
-        .hobby-label {
-            display: inline-flex;
-            align-items: center;
-            font-size: 14px;
-            cursor: pointer;
-            position: relative;
-            padding-left: 30px;
-            user-select: none;
-            color: #555;
-            margin: 0;
-        }
-
-        .hobby-label input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-        .checkmark {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ff3b57;
-            border-radius: 4px;
-            background: white;
-            transition: all 0.3s;
-        }
-
-        .hobby-label:hover .checkmark {
-            border-color: #ff1f3c;
-        }
-
-        .hobby-label input:checked ~ .checkmark {
-            background: #ff3b57;
-            border-color: #ff3b57;
-        }
-
-        .hobby-label input:checked ~ .checkmark::after {
-            content: '';
-            position: absolute;
-            left: 6px;
-            top: 2px;
-            width: 6px;
-            height: 12px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-
-        .zodiac-info {
-            background: #fff;
-            padding: 12px 15px;
-            border-radius: 12px;
-            border: 1px solid #eee;
-            margin-top: 5px;
-        }
-
-        .zodiac-info p {
-            margin: 0;
-            font-size: 15px;
-            color: #666;
-        }
-
-        @media(max-width: 768px){
-            .profile-container {
-                padding: 20px;
-            }
-            
-            .form-columns {
-                flex-direction: column;
-                gap: 25px;
-            }
-            
-            .form-column {
-                min-width: 100%;
-            }
-            
-            .top-section {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 25px;
-            }
-            
-            .profile-info {
-                min-width: 100%;
-            }
-            
-            .buttons-group {
-                justify-content: center;
-            }
-            
-            button {
-                width: 100%;
-            }
-            
-            .album-container {
-                justify-content: center;
-            }
-            
-            .hobby-container {
-                justify-content: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/static/profile.css">
 </head>
 <body>
 
 <div class="profile-container">
     <h2>Мой профиль</h2>
 
+    <!-- Индикатор прогресса заполнения профиля -->
+    <div class="progress-section" role="region" aria-label="Прогресс заполнения профиля">
+        <div class="progress-header">
+            <span class="progress-title">Заполнение профиля</span>
+            <span class="progress-percent" id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar">
+            <div class="progress-bar-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="progress-tip" id="progressTip">Заполните профиль, чтобы находить больше совпадений!</div>
+    </div>
+
+
+        <!-- Туториал для новых пользователей -->
+    {% if user and not user.name or not user.bio or not user.hobbies %}
+    <div class="profile-tutorial" id="profileTutorial">
+        <h4>🎯 Как заполнить профиль, чтобы найти идеальную пару</h4>
+        <div class="tutorial-steps">
+            <div class="tutorial-step {% if user.name %}step-completed{% endif %}">
+                <span class="step-number">1</span>
+                <span class="step-text">Добавь имя и дату рождения</span>
+                {% if user.name %}
+                    <span class="step-done">✓</span>
+                {% endif %}
+            </div>
+            
+            <div class="tutorial-step {% if user.profile_photo %}step-completed{% endif %}">
+                <span class="step-number">2</span>
+                <span class="step-text">Загрузи фото профиля (люди чаще свайпают вправо, если есть фото)</span>
+                {% if user.profile_photo %}
+                    <span class="step-done">✓</span>
+                {% endif %}
+            </div>
+            
+            <div class="tutorial-step {% if user.hobbies %}step-completed{% endif %}">
+                <span class="step-number">3</span>
+                <span class="step-text">Выбери интересы — мы показываем людей с общими увлечениями</span>
+                {% if user.hobbies %}
+                    <span class="step-done">✓</span>
+                {% endif %}
+            </div>
+            
+            <div class="tutorial-step {% if user.bio %}step-completed{% endif %}">
+                <span class="step-number">4</span>
+                <span class="step-text">Напиши о себе: чем занимаешься, что ищешь</span>
+                {% if user.bio %}
+                    <span class="step-done">✓</span>
+                {% endif %}
+            </div>
+            
+            <div class="tutorial-step {% if user.school or user.profession %}step-completed{% endif %}">
+                <span class="step-number">5</span>
+                <span class="step-text">Добавь информацию об образовании и работе</span>
+                {% if user.school or user.profession %}
+                    <span class="step-done">✓</span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <button class="onboarding-btn-next" style="margin-top: 20px; width: 100%;" onclick="this.parentElement.style.display='none'">
+            Понятно, спасибо! ✨
+        </button>
+    </div>
+
+    <style>
+        .step-completed {
+            opacity: 0.7;
+            background: #f0f0f0;
+        }
+        
+        .step-completed .step-number {
+            background: #4caf50;
+        }
+        
+        .step-done {
+            color: #4caf50;
+            font-weight: bold;
+            margin-left: auto;
+        }
+    </style>
+    {% endif %}
+
     <div class="top-section">
         {% if user.profile_photo %}
-            <img src="{{ user.profile_photo }}" alt="Аватар" class="profile-photo">
+            <img src="{{ user.profile_photo }}" alt="Фото профиля {{ user.name }}" class="profile-photo">
+        {% else %}
+            <img src="/static/default-avatar.png" alt="Фото профиля по умолчанию" class="profile-photo">
         {% endif %}
 
         <div class="profile-info">
@@ -362,8 +112,8 @@
             <p><strong>Пол:</strong> {{ user.gender or 'Не указан' }}</p>
 
             <div class="buttons-group">
-                <button class="btn-main" onclick="window.location.href='/'">На главную</button>
-                <button class="btn-logout" onclick="window.location.href='/logout'">Выйти из аккаунта</button>
+                <button class="btn-main" onclick="window.location.href='/'" aria-label="На главную">На главную</button>
+                <button class="btn-logout" onclick="window.location.href='/logout'" aria-label="Выйти из аккаунта">Выйти из аккаунта</button>
             </div>
         </div>
     </div>
@@ -371,9 +121,10 @@
     {% if user.album %}
     <div class="block">
         <h3>Альбом</h3>
-        <div class="album-container">
+        <div class="album-container" role="region" aria-label="Фотографии альбома">
             {% for photo in user.album %}
-                <img src="{{ photo }}" class="album-photo">
+                <img src="{{ photo }}" class="album-photo" alt="Фотография из альбома {{ loop.index }}" 
+                     tabindex="0" role="button" aria-label="Увеличить фотографию {{ loop.index }}">
             {% endfor %}
         </div>
     </div>
@@ -385,19 +136,24 @@
             <div class="form-columns">
                 <div class="form-column">
                     <div class="form-group">
-                        <label>Имя:</label>
-                        <input name="name" placeholder="Ваше имя" value="{{ user.name }}" required>
+                        <label for="name">Имя:</label>
+                        <input type="text" id="name" name="name" placeholder="Ваше имя" value="{{ user.name }}" required
+                               aria-required="true" aria-describedby="nameHint">
+                        <small id="nameHint" class="hint">Как к вам обращаться?</small>
                     </div>
                     
                     <div class="form-group">
-                        <label>Дата рождения:</label>
+                        <label for="birth_date">Дата рождения:</label>
                         <input type="date" id="birth_date" name="birth_date" 
-                               value="{{ year }}-{{ '%02d' % month }}-{{ '%02d' % day }}" required>
+                               value="{{ year }}-{{ '%02d' % month }}-{{ '%02d' % day }}" required
+                               aria-required="true" aria-describedby="dateHint">
+                        <small id="dateHint" class="hint">Для расчета возраста и знака зодиака</small>
                     </div>
                     
                     <div class="form-group">
-                        <label>Возраст:</label>
-                        <input name="age" id="age" placeholder="Возраст" value="{{ user.age }}" readonly>
+                        <label for="age">Возраст:</label>
+                        <input type="text" id="age" name="age" placeholder="Возраст" value="{{ user.age }}" readonly
+                               aria-label="Возраст (автоматически)">
                     </div>
                     
                     <div class="form-group">
@@ -408,31 +164,34 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Фото профиля:</label>
-                        <input type="file" name="profile_photo" accept="image/*">
+                        <label for="profile_photo">Фото профиля:</label>
+                        <input type="file" id="profile_photo" name="profile_photo" accept="image/*"
+                               aria-describedby="photoHint">
+                        <small id="photoHint" class="hint">Рекомендуемый размер: 500x500px</small>
                     </div>
                     
                     <div class="form-group">
-                        <label>Альбом фото:</label>
-                        <input type="file" name="album" multiple accept="image/*">
-                        <small style="color: #777; font-size: 12px; margin-top: 5px;">Можно выбрать несколько файлов</small>
+                        <label for="album">Альбом фото:</label>
+                        <input type="file" id="album" name="album" multiple accept="image/*"
+                               aria-describedby="albumHint">
+                        <small id="albumHint" class="hint">Можно выбрать несколько файлов. Максимум 10 фото</small>
                     </div>
                 </div>
 
                 <div class="form-column">
                     <div class="form-group">
-                        <label>Где учились:</label>
-                        <input name="school" placeholder="Школа, университет и т.д." value="{{ user.school }}">
+                        <label for="school">Где учились:</label>
+                        <input type="text" id="school" name="school" placeholder="Школа, университет и т.д." value="{{ user.school }}">
                     </div>
                     
                     <div class="form-group">
-                        <label>Профессия:</label>
-                        <input name="profession" placeholder="Ваша профессия" value="{{ user.profession }}">
+                        <label for="profession">Профессия:</label>
+                        <input type="text" id="profession" name="profession" placeholder="Ваша профессия" value="{{ user.profession }}">
                     </div>
                     
                     <div class="form-group">
-                        <label>Статус:</label>
-                        <select name="status">
+                        <label for="status">Статус:</label>
+                        <select id="status" name="status">
                             {% for s in status_options %}
                             <option value="{{ s }}" {% if user.status==s %}selected{% endif %}>{{ s }}</option>
                             {% endfor %}
@@ -440,8 +199,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Пол:</label>
-                        <select name="gender" required>
+                        <label for="gender">Пол:</label>
+                        <select id="gender" name="gender" required aria-required="true">
                             {% for g in gender_options %}
                             <option value="{{ g }}" {% if user.gender == g %}selected{% endif %}>{{ g }}</option>
                             {% endfor %}
@@ -449,8 +208,8 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Что ищете:</label>
-                        <select name="looking_for">
+                        <label for="looking_for">Что ищете:</label>
+                        <select id="looking_for" name="looking_for">
                             {% for s in search_options %}
                             <option value="{{ s }}" {% if user.looking_for==s %}selected{% endif %}>{{ s }}</option>
                             {% endfor %}
@@ -459,11 +218,12 @@
                     
                     <div class="form-group">
                         <label>Интересы / Хобби:</label>
-                        <div class="hobby-container">
+                        <div class="hobby-container" role="group" aria-label="Выберите интересы">
                             {% for h in hobbies %}
                             <label class="hobby-label">
-                                <input type="checkbox" name="hobbies" value="{{ h }}" {% if h in user.hobbies %}checked{% endif %}>
-                                <span class="checkmark"></span>
+                                <input type="checkbox" name="hobbies" value="{{ h }}" {% if h in user.hobbies %}checked{% endif %}
+                                       aria-label="{{ h }}">
+                                <span class="checkmark" aria-hidden="true"></span>
                                 {{ h }}
                             </label>
                             {% endfor %}
@@ -471,14 +231,16 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Биография:</label>
-                        <textarea name="bio" placeholder="Расскажите о себе...">{{ user.bio }}</textarea>
+                        <label for="bio">Биография:</label>
+                        <textarea id="bio" name="bio" placeholder="Расскажите о себе..." 
+                                  aria-describedby="bioHint">{{ user.bio }}</textarea>
+                        <small id="bioHint" class="hint">Расскажите о своих увлечениях, характере, что ищете</small>
                     </div>
                 </div>
             </div>
 
             <div class="form-submit">
-                <button type="submit">Сохранить изменения</button>
+                <button type="submit" aria-label="Сохранить изменения профиля">Сохранить изменения</button>
             </div>
         </form>
     </div>
@@ -510,11 +272,12 @@ birthDateInput.addEventListener("change", function() {
         const today = new Date();
         let age = today.getFullYear() - date.getFullYear();
         if (today.getMonth() < date.getMonth() || 
-            (today.getMonth() === date.getonth() && today.getDate() < date.getDate())) {
+            (today.getMonth() === date.getMonth() && today.getDate() < date.getDate())) {
             age--;
         }
         ageInput.value = age;
         zodiacSpan.textContent = calculateZodiac(date.getDate(), date.getMonth() + 1);
+        updateProgress();
     }
 });
 
@@ -523,8 +286,173 @@ document.addEventListener('DOMContentLoaded', function() {
         const event = new Event('change');
         birthDateInput.dispatchEvent(event);
     }
+    updateProgress();
+    
+    // Добавляем обработчики для всех полей
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('change', updateProgress);
+        input.addEventListener('input', updateProgress);
+    });
 });
+
+// Индикатор прогресса
+function updateProgress() {
+    const fields = [
+        { id: 'name', weight: 15 },
+        { id: 'birth_date', weight: 10 },
+        { id: 'gender', weight: 10 },
+        { id: 'bio', weight: 20, minLength: 30 },
+        { id: 'school', weight: 5 },
+        { id: 'profession', weight: 5 },
+        { id: 'status', weight: 5 },
+        { id: 'looking_for', weight: 5 },
+        { hobbies: 'checkboxes', weight: 15, minCount: 3 }
+    ];
+    
+    let total = 0;
+    let maxTotal = 0;
+    
+    fields.forEach(field => {
+        maxTotal += field.weight;
+        
+        if (field.id) {
+            const element = document.getElementById(field.id);
+            if (element) {
+                if (field.minLength) {
+                    if (element.value && element.value.length >= field.minLength) {
+                        total += field.weight;
+                    }
+                } else {
+                    if (element.value && element.value.trim() !== '') {
+                        total += field.weight;
+                    }
+                }
+            }
+        } else if (field.hobbies === 'checkboxes') {
+            const checked = document.querySelectorAll('input[name="hobbies"]:checked').length;
+            if (checked >= field.minCount) {
+                total += field.weight;
+            } else if (checked > 0) {
+                total += (field.weight / field.minCount) * checked;
+            }
+        }
+    });
+    
+    // Профиль фото
+    const hasProfilePhoto = document.querySelector('.profile-photo') && 
+                           !document.querySelector('.profile-photo').src.includes('default-avatar');
+    if (hasProfilePhoto) {
+        maxTotal += 10;
+        total += 10;
+    }
+    
+    const percent = Math.min(100, Math.round((total / maxTotal) * 100));
+    
+    // Обновляем UI
+    document.getElementById('progressPercent').textContent = percent + '%';
+    document.getElementById('progressFill').style.width = percent + '%';
+    document.getElementById('progressBar').setAttribute('aria-valuenow', percent);
+    
+    // Обновляем подсказку
+    const tip = document.getElementById('progressTip');
+    if (percent < 30) {
+        tip.textContent = '💡 Добавьте фото и расскажите о себе, чтобы повысить шансы на знакомство!';
+    } else if (percent < 60) {
+        tip.textContent = '👍 Хорошо! Добавьте интересы и биографию для лучших совпадений';
+    } else if (percent < 90) {
+        tip.textContent = '🌟 Отлично! Осталось совсем немного для идеального профиля';
+    } else {
+        tip.textContent = '✨ Профиль готов к поиску! Удачи в знакомствах!';
+    }
+}
 </script>
 
+<style>
+    .progress-section {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .progress-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .progress-title {
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .progress-percent {
+        font-weight: 600;
+        color: #ff3b57;
+    }
+    
+    .progress-bar-container {
+        height: 8px;
+        background: #f0f0f0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    
+    .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #ff3b57, #ff6b81);
+        transition: width 0.3s ease;
+    }
+    
+    .progress-tip {
+        font-size: 14px;
+        color: #666;
+        font-style: italic;
+    }
+    
+    .hint {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+        display: block;
+    }
+    
+    .album-photo:focus {
+        outline: 3px solid #ff3b57;
+        outline-offset: 2px;
+    }
+</style>
+
+<!-- Быстрые подсказки для профиля -->
+{% if user and not user.name or not user.bio %}
+<script>
+    // Показываем подсказки для незаполненных полей
+    document.addEventListener('DOMContentLoaded', function() {
+        const emptyFields = [];
+        
+        if (!document.getElementById('name').value) emptyFields.push('имя');
+        if (!document.getElementById('bio').value) emptyFields.push('биографию');
+        if (!document.querySelector('input[name="hobbies"]:checked')) emptyFields.push('интересы');
+        if (!document.querySelector('.profile-photo')?.src.includes('default')) emptyFields.push('фото');
+        
+        if (emptyFields.length > 0) {
+            const tip = document.createElement('div');
+            tip.className = 'quick-tip';
+            tip.innerHTML = `
+                <span class="quick-tip-icon">✨</span>
+                <span>Не забудь добавить: ${emptyFields.join(', ')}</span>
+                <button class="quick-tip-close" onclick="this.parentElement.remove()">✕</button>
+            `;
+            document.querySelector('.profile-container').insertBefore(tip, document.querySelector('.block'));
+        }
+    });
+</script>
+{% endif %}
+
+<script src="/static/onboarding.js"></script>
 </body>
 </html>

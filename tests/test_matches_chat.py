@@ -31,3 +31,19 @@ def test_send_message(client, temp_storage):
     users = load_users()
     assert len(users["me"]["chats"]["partner"]) == 1
     assert users["me"]["chats"]["partner"][0]["text"] == "Привет!"
+
+def test_chat_read_status_updates(client, temp_storage):
+    users = {
+        "me": {"matches": ["partner"], "chats": {"partner": [{"from": "partner", "text": "Hi", "read": False}]}, "gender": "Мужской"},
+        "partner": {"matches": ["me"], "chats": {"me": [{"from": "partner", "text": "Hi", "read": False}]}, "gender": "Женский"}
+    }
+    save_users(users)
+
+    with client.session_transaction() as sess:
+        sess["user"] = "me"
+
+    response = client.get("/chat/partner")
+    assert response.status_code == 200
+
+    users = load_users()
+    assert users["me"]["chats"]["partner"][0]["read"] is True  # Статус обновлен после просмотра

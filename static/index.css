@@ -1,0 +1,161 @@
+
+        body { font-family: 'Poppins', Arial, sans-serif; margin:0; padding:0; background:#fff0f5; color:#333; overflow-x:hidden; }
+        a { text-decoration:none; }
+        header { background: linear-gradient(90deg,#ff6b81,#ff4757); color:white; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:1000; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+        header h1 { margin:0; font-size:28px; letter-spacing:1px; }
+        header nav { 
+            display:flex; 
+            align-items:center; 
+            gap:20px; 
+        }
+        
+        .matches-btn {
+            background: #ff6b81 !important;
+            color: white !important;
+            padding: 10px 25px !important; 
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            border: 2px solid #ff9eb5 !important;
+            transition: 0.3s !important;
+            box-shadow: 0 4px 10px rgba(255, 107, 129, 0.3) !important;
+            /* Добавленные свойства для выравнивания */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1; /* Убираем лишнее межстрочное расстояние */
+            height: 45px; /* Фиксированная высота, как у кружка профиля */
+            box-sizing: border-box; /* Учитываем padding и border в высоте */
+        }
+        
+        .matches-btn:hover {
+            background: #ff4757 !important;
+            border-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4) !important;
+        }
+        
+        .auth-link {
+            color: white !important;
+            font-weight: 600 !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 45px;
+            box-sizing: border-box;
+        }
+        
+        .auth-link:hover {
+            border-color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .profile-circle { 
+            width:45px; 
+            height:45px; 
+            border-radius:50%; 
+            object-fit:cover; 
+            cursor:pointer; 
+            transition:0.3s; 
+            border: 3px solid rgba(255,255,255,0.5);
+            display: block; /* Убираем лишние отступы */
+            margin: 0; /* Убираем возможные отступы */
+            flex-shrink: 0; /* Запрещаем сжиматься */
+        }
+        .profile-circle:hover { transform:scale(1.1); border-color:white; }
+
+        /* Стили для летающих сердечек */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #ff3b57;
+            font-size: 24px;
+            opacity: 0;
+            animation: float 15s infinite linear;
+            text-shadow: 0 0 8px rgba(255, 59, 87, 0.3);
+        }
+        
+        .heart:nth-child(2n) {
+            color: #ff6b81;
+            animation-duration: 20s;
+        }
+        
+        .heart:nth-child(3n) {
+            color: #ff9eb5;
+            animation-duration: 25s;
+            font-size: 20px;
+        }
+        
+        .heart:nth-child(4n) {
+            color: #ff4757;
+            animation-duration: 18s;
+            font-size: 28px;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .hero { 
+            text-align:center; 
+            padding:120px 20px; 
+            background:linear-gradient(135deg,#ffe6e6,#ffb3b3); 
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); 
+            position: relative;
+            z-index: 2;
+        }
+        .hero h2 { font-size:48px; margin-bottom:20px; color:#ff3b57; text-shadow:1px 1px 4px rgba(0,0,0,0.1); }
+        .hero p { font-size:22px; margin-bottom:40px; color:#555; }
+        .hero button { background:#ff3b57; color:white; border:none; padding:15px 35px; font-size:18px; border-radius:50px; cursor:pointer; transition:0.3s; box-shadow:0 6px 12px rgba(0,0,0,0.1); position: relative; z-index: 3; }
+        .hero button:hover { background:#ff1f3c; transform:translateY(-3px); box-shadow:0 10px 20px rgba(0,0,0,0.2); }
+
+        .profile-banner { display:flex; align-items:center; justify-content:space-between; background:#ff6b81; color:white; padding:12px 20px; border-radius:12px; max-width:450px; margin:20px auto; box-shadow:0 6px 15px rgba(0,0,0,0.1); gap:15px; position: relative; z-index: 2; }
+        .profile-banner p { margin:0; font-weight:600; }
+        .profile-banner button { background:white; color:#ff3b57; border:none; padding:8px 18px; border-radius:50px; cursor:pointer; font-weight:600; transition:0.3s; }
+        .profile-banner button:hover { background:#ffe6e6; }
+        .profile-circle-small { width:40px; height:40px; border-radius:50%; object-fit:cover; border: 2px solid white; }
+
+        .cards { display:flex; justify-content:center; flex-wrap:wrap; gap:25px; padding:60px 20px; position: relative; z-index: 2; }
+        .card { background:white; padding:30px 20px; border-radius:15px; width:270px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:center; transition:0.3s; position: relative; z-index: 3; }
+        .card:hover { transform:translateY(-10px); box-shadow:0 15px 30px rgba(0,0,0,0.15); }
+        .card h3 { margin-bottom:15px; color:#ff3b57; }
+        .card p { color:#666; font-size:16px; }
+
+        footer { background:#333; color:white; text-align:center; padding:25px 20px; margin-top:50px; font-size:14px; position: relative; z-index: 2; }
+
+        @media(max-width:900px){ 
+            .cards { flex-direction:column; align-items:center; } 
+            .heart { font-size: 18px; }
+            header { padding:15px 20px; }
+            header nav { 
+                display:flex; 
+                align-items:center; 
+                gap:10px; 
+            }
+            .matches-btn {
+                padding: 8px 15px !important; /* Чуть меньше на мобильных */
+                height: 40px !important; /* Чуть меньше на мобильных */
+            }
+        }

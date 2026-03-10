@@ -1,5 +1,6 @@
 import json
 import os
+from contextlib import contextmanager
 
 DATA_FILE = "users.json"
 
@@ -39,3 +40,13 @@ def load_users():
 def save_users(users: dict):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(users, f, ensure_ascii=False, indent=2)
+
+
+
+@contextmanager
+def user_data():
+    users = load_users()
+    try:
+        yield users
+    finally:
+        save_users(users)

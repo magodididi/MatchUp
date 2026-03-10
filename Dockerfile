@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Настройка
-ENV FLASK_APP=app.py  # Если app в app.py; скорректируйте, если иначе
+ENV FLASK_APP=app.py  
 ENV FLASK_ENV=production
 EXPOSE 5000
 

@@ -101,9 +101,12 @@
 
 **Улучшение 4: Добавили индикатор прогресса заполнения профиля в profile.html**
 
-*        <div class="progress-bar" style="width: {{ progress }}%; background: #ff3b57;"></div>
+До: Нет в profile.html.
+
+*       <div class="progress-bar" style="width: {{ progress }}%; background: #ff3b57;"></div>
         <p>Профиль заполнен на {{ progress }}%</p>
 
+После: В profile.html:
 *    В routes.py/profile:
 
         fields = ['name', 'age', 'bio', ...]  
@@ -117,7 +120,8 @@
 **После:**
 
 *    В chat.html для сообщений: <div role="log" aria-live="polite" id="messages">.
-*    Alt везде: <img src="..." alt="Фото профиля {{ user.name }}">.
+*    Alt везде: 
+        <imgg src="..." alt="Фото профиля {{ user.name }}">.
 *       В CSS обеспечили contrast-ratio >4.5:1.
 
 4. Картинки/описания “до” vs. “after”
@@ -150,7 +154,7 @@
 После: Прогресс-бар мотивирует заполнить. Описание: Пользователь видит, что профиль 50% готов — поощряет завершить.
 
 ![Профиль после](/images_for_3lab/progress.png)
-![Профиль после](/images_for_3lab/prof-po.png)
+![Профиль после](/images_for_3lab/prof_po.png)
 ![Профиль после](/images_for_3lab/prof1-po.png)
 ![Профиль после](/images_for_3lab/prof2-po.png)
 
